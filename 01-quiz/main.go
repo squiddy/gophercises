@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"encoding/csv"
 	"flag"
 	"fmt"
@@ -23,10 +22,11 @@ func main() {
 
 	fmt.Println("Riddle me this")
 
-	reader := bufio.NewReader(os.Stdin)
 	for _, p := range problems {
 		fmt.Printf("%s >> ", p[0])
-		input, err := reader.ReadString('\n')
+
+		var input string
+		_, err := fmt.Scanf("%s\n", &input)
 		if err != nil {
 			fmt.Fprintln(os.Stderr, err)
 			os.Exit(1)
