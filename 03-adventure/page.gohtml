@@ -1,0 +1,21 @@
+<style>
+  body {
+    padding: 2em;
+    max-width: 40em;
+    margin: 0 auto; 
+  }
+</style>
+
+<h1>{{ .Title }}</h1>
+
+{{ range.Description }}
+  <p>{{ . }}</p>
+{{ end }}
+
+<ul>
+{{ range .Options }}
+  <li>
+    <a href="/{{ .Arc }}">{{ .Text }}</a>
+  </li>
+{{ end }}
+</ul>
