@@ -1,10 +1,7 @@
-package main
+package parser
 
 import (
-	"flag"
-	"fmt"
 	"io"
-	"os"
 	"strings"
 
 	"golang.org/x/net/html"
@@ -61,15 +58,4 @@ func ParseLinks(reader io.Reader) ([]Link, error) {
 	walk(doc)
 
 	return results, nil
-}
-
-func main() {
-	filename := flag.String("filename", "", "file to parse")
-	flag.Parse()
-
-	file, _ := os.Open(*filename)
-	links, _ := ParseLinks(file)
-	for _, link := range links {
-		fmt.Printf("[%s] %s\n", link.Href, link.Text)
-	}
 }
