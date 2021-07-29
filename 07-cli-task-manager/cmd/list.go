@@ -5,7 +5,7 @@ import (
 
 	"github.com/boltdb/bolt"
 	"github.com/spf13/cobra"
-	"reinergerecke.de/gophercises/07-cli-task-manager/internal"
+	"github.com/squiddy/gophercises/07-cli-task-manager/internal"
 )
 
 func init() {

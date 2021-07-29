@@ -1,4 +1,4 @@
-module reinergerecke.de/gophercises/04-link-parser
+module github.com/squiddy/gophercises/04-link-parser
 
 go 1.16
 

@@ -1,3 +1,3 @@
-module reinergerecke.de/gophercises/03-adventure
+module github.com/squiddy/gophercises/03-adventure
 
 go 1.16

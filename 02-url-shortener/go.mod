@@ -1,4 +1,4 @@
-module reinergerecke.de/gophercises/02-url-shortener
+module github.com/squiddy/gophercises/02-url-shortener
 
 go 1.16
 

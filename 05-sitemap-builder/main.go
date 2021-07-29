@@ -9,7 +9,7 @@ import (
 	"net/url"
 	"os"
 
-	parser "reinergerecke.de/gophercises/04-link-parser"
+	parser "github.com/squiddy/gophercises/04-link-parser"
 )
 
 func isRelevantLink(origin *url.URL, target *url.URL) bool {

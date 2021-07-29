@@ -1,4 +1,4 @@
-module reinergerecke.de/gophercises/07-cli-task-manager
+module github.com/squiddy/gophercises/07-cli-task-manager
 
 go 1.16
 

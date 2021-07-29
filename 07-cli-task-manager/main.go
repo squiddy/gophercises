@@ -1,7 +1,7 @@
 package main
 
 import (
-	"reinergerecke.de/gophercises/07-cli-task-manager/cmd"
+	"github.com/squiddy/gophercises/07-cli-task-manager/cmd"
 )
 
 func main() {

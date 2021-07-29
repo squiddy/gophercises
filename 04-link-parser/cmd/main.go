@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	parser "reinergerecke.de/gophercises/04-link-parser"
+	parser "github.com/squiddy/gophercises/04-link-parser"
 )
 
 func main() {

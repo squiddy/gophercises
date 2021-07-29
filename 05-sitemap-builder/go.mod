@@ -1,7 +1,7 @@
-module reinergerecke.de/gophercises/05-sitemap-builder
+module github.com/squiddy/gophercises/05-sitemap-builder
 
 go 1.16
 
-require reinergerecke.de/gophercises/04-link-parser v0.0.0
+require github.com/squiddy/gophercises/04-link-parser v0.0.0
 
-replace reinergerecke.de/gophercises/04-link-parser => ../04-link-parser
+replace github.com/squiddy/gophercises/04-link-parser => ../04-link-parser
