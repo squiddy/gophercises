@@ -21,6 +21,7 @@ var listCmd = &cobra.Command{
 			b := tx.Bucket([]byte("todos"))
 			c := b.Cursor()
 
+			fmt.Println("Your tasks:")
 			for k, v := c.First(); k != nil; k, v = c.Next() {
 				fmt.Printf("%d: %s\n", internal.BtoID(k), v)
 			}

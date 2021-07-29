@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/boltdb/bolt"
@@ -19,10 +20,16 @@ var addCmd = &cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
 		task := strings.Join(args, " ")
 		db := GetDb(cmd.Context())
-		return db.Update(func(t *bolt.Tx) error {
+		if err := db.Update(func(t *bolt.Tx) error {
 			b := t.Bucket([]byte("todos"))
 			id, _ := b.NextSequence()
 			return b.Put(internal.IDtoB(id), []byte(task))
-		})
+		}); err != nil {
+			return err
+		}
+
+		fmt.Printf("Added \"%s\" to the tasks.\n", task)
+
+		return nil
 	},
 }

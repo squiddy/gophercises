@@ -30,9 +30,14 @@ var doCmd = &cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
 		db := GetDb(cmd.Context())
 		id, _ := strconv.Atoi(args[0])
-		return db.Update(func(t *bolt.Tx) error {
+		if err := db.Update(func(t *bolt.Tx) error {
 			b := t.Bucket([]byte("todos"))
 			return b.Delete(internal.IDtoB(uint64(id)))
-		})
+		}); err != nil {
+			return err
+		}
+
+		fmt.Println("Removed task.")
+		return nil
 	},
 }
