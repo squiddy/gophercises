@@ -1,11 +1,13 @@
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
 	"strconv"
 
 	"github.com/boltdb/bolt"
 	"github.com/spf13/cobra"
+	"github.com/squiddy/gophercises/07-cli-task-manager/internal"
 )
 
 func init() {
@@ -27,6 +29,8 @@ var doCmd = &cobra.Command{
 		return nil
 	},
 	RunE: func(cmd *cobra.Command, args []string) error {
+		var task internal.Task
+
 		db := GetDb(cmd.Context())
 		id, _ := strconv.Atoi(args[0])
 		if err := db.Update(func(t *bolt.Tx) error {
@@ -34,9 +38,19 @@ var doCmd = &cobra.Command{
 			c := b.Cursor()
 
 			i := 1
-			for k, _ := c.First(); k != nil; k, _ = c.Next() {
+			for k, v := c.First(); k != nil; k, v = c.Next() {
 				if i == id {
-					return b.Delete(k)
+					if err := json.Unmarshal(v, &task); err != nil {
+						return err
+					}
+
+					task.Complete()
+
+					data, err := json.Marshal(task)
+					if err != nil {
+						return err
+					}
+					return b.Put(k, data)
 				}
 				i++
 			}
@@ -46,7 +60,7 @@ var doCmd = &cobra.Command{
 			return err
 		}
 
-		fmt.Println("Removed task.")
+		fmt.Printf("Marked task \"%s\" as completed.\n", task.Title)
 		return nil
 	},
 }

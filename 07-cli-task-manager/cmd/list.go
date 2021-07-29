@@ -1,10 +1,12 @@
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/boltdb/bolt"
 	"github.com/spf13/cobra"
+	"github.com/squiddy/gophercises/07-cli-task-manager/internal"
 )
 
 func init() {
@@ -23,7 +25,16 @@ var listCmd = &cobra.Command{
 			fmt.Println("Your tasks:")
 			i := 1
 			for k, v := c.First(); k != nil; k, v = c.Next() {
-				fmt.Printf("%d: %s\n", i, v)
+				var task internal.Task
+				if err := json.Unmarshal(v, &task); err != nil {
+					return err
+				}
+
+				if !task.Completed.IsZero() {
+					continue
+				}
+
+				fmt.Printf("%d: %s\n", i, task.Title)
 				i++
 			}
 

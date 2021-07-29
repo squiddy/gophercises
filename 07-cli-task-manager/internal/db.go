@@ -3,9 +3,28 @@ package internal
 import (
 	"encoding/binary"
 	"fmt"
+	"time"
 
 	"github.com/boltdb/bolt"
 )
+
+type Task struct {
+	Created   time.Time
+	Completed time.Time
+	Title     string
+}
+
+func NewTask(title string) Task {
+	return Task{
+		Created:   time.Now(),
+		Completed: time.Time{},
+		Title:     title,
+	}
+}
+
+func (t *Task) Complete() {
+	t.Completed = time.Now()
+}
 
 func OpenDb(path string) (*bolt.DB, error) {
 	db, err := bolt.Open("/tmp/my.db", 0600, nil)

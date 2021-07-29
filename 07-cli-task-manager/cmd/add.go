@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
 
@@ -18,17 +19,23 @@ var addCmd = &cobra.Command{
 	Short: "Add a new task",
 	Args:  cobra.MinimumNArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		task := strings.Join(args, " ")
+		title := strings.Join(args, " ")
+		task := internal.NewTask(title)
+		data, err := json.Marshal(task)
+		if err != nil {
+			return err
+		}
+
 		db := GetDb(cmd.Context())
 		if err := db.Update(func(t *bolt.Tx) error {
 			b := t.Bucket([]byte("todos"))
 			id, _ := b.NextSequence()
-			return b.Put(internal.IDtoB(id), []byte(task))
+			return b.Put(internal.IDtoB(id), data)
 		}); err != nil {
 			return err
 		}
 
-		fmt.Printf("Added \"%s\" to the tasks.\n", task)
+		fmt.Printf("Added \"%s\" to the tasks.\n", title)
 
 		return nil
 	},
