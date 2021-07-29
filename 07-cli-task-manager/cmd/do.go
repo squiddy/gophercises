@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/boltdb/bolt"
 	"github.com/spf13/cobra"
+	"reinergerecke.de/gophercises/07-cli-task-manager/internal"
 )
 
 func init() {
@@ -25,7 +27,12 @@ var doCmd = &cobra.Command{
 
 		return nil
 	},
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("do")
+	RunE: func(cmd *cobra.Command, args []string) error {
+		db := GetDb(cmd.Context())
+		id, _ := strconv.Atoi(args[0])
+		return db.Update(func(t *bolt.Tx) error {
+			b := t.Bucket([]byte("todos"))
+			return b.Delete(internal.IDtoB(uint64(id)))
+		})
 	},
 }
