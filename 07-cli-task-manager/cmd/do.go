@@ -6,7 +6,6 @@ import (
 
 	"github.com/boltdb/bolt"
 	"github.com/spf13/cobra"
-	"github.com/squiddy/gophercises/07-cli-task-manager/internal"
 )
 
 func init() {
@@ -32,7 +31,17 @@ var doCmd = &cobra.Command{
 		id, _ := strconv.Atoi(args[0])
 		if err := db.Update(func(t *bolt.Tx) error {
 			b := t.Bucket([]byte("todos"))
-			return b.Delete(internal.IDtoB(uint64(id)))
+			c := b.Cursor()
+
+			i := 1
+			for k, _ := c.First(); k != nil; k, _ = c.Next() {
+				if i == id {
+					return b.Delete(k)
+				}
+				i++
+			}
+
+			return fmt.Errorf("task with id %d not found", id)
 		}); err != nil {
 			return err
 		}

@@ -5,7 +5,6 @@ import (
 
 	"github.com/boltdb/bolt"
 	"github.com/spf13/cobra"
-	"github.com/squiddy/gophercises/07-cli-task-manager/internal"
 )
 
 func init() {
@@ -22,8 +21,10 @@ var listCmd = &cobra.Command{
 			c := b.Cursor()
 
 			fmt.Println("Your tasks:")
+			i := 1
 			for k, v := c.First(); k != nil; k, v = c.Next() {
-				fmt.Printf("%d: %s\n", internal.BtoID(k), v)
+				fmt.Printf("%d: %s\n", i, v)
+				i++
 			}
 
 			return nil
